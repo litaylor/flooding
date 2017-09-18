@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Florida Flooded</title>
+    <head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"/></script>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.2.1/chroma.min.js"></script>
+      <style>
+        body {
+          height: 100%;
+          padding: 20px;
+        }
+        .map {
+          width: 100%;
+          height: 300px;
+          border:thin black solid;
+        }
+      </style>
+  </head>
+  <body>
+    <div class="map" id="map">
+
+    </div>
+    <button id="next">next</button>
+
+
+    <script>
+
+
+      var sampleData = [96,97,98,99,100,101,102,103,104,105,106];
+
+      console.log(sampleData);
+
+      var mymap = L.map('map').setView([27.8333,-81.7170], 6);
+      L.tileLayer('https://api.mapbox.com/styles/v1/langston/ciu78asr700gh2ilfldarha0p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGFuZ3N0b24iLCJhIjoiY2l1Nzg2Y2VmMGpnNDMwbGgwOHh0ZGp5NCJ9.mgmSlD3jmIiD6tR5cXlT9w', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'ciu794gsz00h52inz99eo895r',
+        accessToken: 'pk.eyJ1IjoibGFuZ3N0b24iLCJhIjoiY2l1Nzg2Y2VmMGpnNDMwbGgwOHh0ZGp5NCJ9.mgmSlD3jmIiD6tR5cXlT9w'
+    }).addTo(mymap);
+    colorScale = chroma.scale(['#e5e8ef','#004075'])
+      .domain([96,106]);
+
+
+
+
+      $("#next").click(abortTimer);
+
+      var xx = setInterval(looper, 200);
+      var dataLooper = 0;
+      function looper() {
+        L.circleMarker([29.55,-81.18],{
+                      stroke:false,
+                      fillOpacity:1,
+                      fillColor: colorScale(sampleData[dataLooper])}).addTo(mymap).bindPopup('hi');
+        if (dataLooper<7) {
+          dataLooper++;
+        }
+        else {
+          dataLooper=0;
+        }
+      }
+      function abortTimer() { // to be called when you want to stop the timer
+        clearInterval(xx);
+      }
+
+    </script>
+  </body>
+</html>
